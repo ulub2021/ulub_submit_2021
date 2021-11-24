@@ -1,4 +1,4 @@
-# Unbiased Learning on Unknown Bias (CVPR 2022 submitted)
+# Unbiased Learning on Unknown Bias (submitted as Paper ID 9744 in CVPR2022)
 
 Pytorch implementation of UBNet
 
