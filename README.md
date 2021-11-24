@@ -3,7 +3,7 @@
 Pytorch implementation of UBNet
 
 # Dependencies and Environment
-Dependencies can be installed via anaconda.
+Dependencies can be installed via ANACONDA.
 ```
 python>=3.7
 pytorch==1.9.0
