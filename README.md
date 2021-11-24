@@ -125,12 +125,13 @@ python main.py -e utkface_ubnet_gender_skintone_ub2_train --is_train --ubnet --c
 skintone prediction with gender bias
 
 | Trained    	| UB1          	| UB1          	| UB2          	| UB2          	|
-| Evaluated  	| :UB2:          	| :Test:         	| :UB1:          	| :Test:         	|
+|------------	|--------------	|--------------	|--------------	|--------------	|
+| Evaluated  	| UB2          	| Test         	| UB1          	| Test         	|
 |------------	|--------------	|--------------	|--------------	|--------------	|
 | Base Model 	| 77.46(±0.55) 	| 82.97(±0.39) 	| 80.58(±0.37) 	| 85.44(±0.32) 	|
 | HEX        	| 79.35(±0.17) 	| 85.07(±0.46) 	| 80.82(±0.15) 	| 85.88(±0.27) 	|
 | Rebias     	| 78.70(±0.62) 	| 83.39(±1.22) 	| 80.06(±1.46) 	| 85.41(±1.23) 	|
-| **UBNet**    	| **83.67(±1.05) **	| **87.25(±0.82)** 	| **84.29(±1.24)** 	| **87.94(±0.80)** 	|
+| **UBNet**    	| **83.67(±1.05)**	| **87.25(±0.82)** 	| **84.29(±1.24)** 	| **87.94(±0.80)** 	|
 
 Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1-UB2) 84.44%, ACC(UB1-Test) 87.91%, ACC(UB2-UB1) 88.66%, ACC(UB2-Test) 84.67%
 
