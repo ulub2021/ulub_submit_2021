@@ -77,8 +77,8 @@ python main.py -e celebA_ubnet_train --is_train --ubnet --cuda --checkpoint exp/
 ### Evaluation
 | Method    	| Base Model   	| HEX          	| Rebias       	| **UBNet**       	|
 |-----------	|--------------	|--------------	|--------------	|--------------	|
-| ACC(UB1)  	| 99.38(±0.31) 	| 92.50(±0.67) 	| 99.05(±0.13) 	| **99.18(±0.18)** 	|
-| ACC(UB2)  	| 51.22(±1.73) 	| 50.85(±0.37) 	| 55.57(±1.43) 	| **58.22(±0.64)** 	|
+| ACC(EB1)  	| 99.38(±0.31) 	| 92.50(±0.67) 	| 99.05(±0.13) 	| **99.18(±0.18)** 	|
+| ACC(EB2)  	| 51.22(±1.73) 	| 50.85(±0.37) 	| 55.57(±1.43) 	| **58.22(±0.64)** 	|
 | ACC(test) 	| 75.30(±0.93) 	| 71.68(±0.50) 	| 77.31(±0.71) 	| **78.70(±0.24)** 	|
 
 Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1) 99.29%, ACC(UB2) 58.74%, and hence ACC(Test) 79.02%
@@ -124,9 +124,9 @@ python main.py -e utkface_ubnet_gender_skintone_ub2_train --is_train --ubnet --c
 ### Evaluation
 skintone prediction with gender bias
 
-|   Trained  	|      EB1     	|      EB1     	|      EB2     	|      EB2     	|
+|   Trained  	|      UB1     	|      UB1     	|      UB2     	|      UB2     	|
 |:----------:	|:------------:	|:------------:	|:------------:	|:------------:	|
-|  Evaluated 	|      EB2     	|     Test     	|      EB1     	|     Test     	|
+|  Evaluated 	|      UB2     	|     Test     	|      UB1     	|     Test     	|
 | Base Model 	| 80.97(±0.79) 	| 86.67(±0.38) 	| 81.43(±0.11) 	| 85.94(±0.77) 	|
 | HEX        	| 80.69(±0.80) 	| 86.51(±0.56) 	| 81.01(±1.57) 	| 86.75(±1.57) 	|
 | Rebias     	| 82.02(±0.84) 	| 86.24(±0.31) 	| 82.02(±0.90) 	| 86.39(±0.51) 	|
@@ -143,9 +143,9 @@ python main.py -e utkface_ubnet_skintone_gender_ub2_test --ubnet --cuda --use_pr
 ```
 gender prediction with skintone bias
 
-|   Trained  	|      EB1      |	     EB1     	|      EB2     	|      EB2     	|
+|   Trained  	|      UB1      |	     UB1     	|      UB2     	|      UB2     	|
 |:----------:	|:------------:	|:------------:	|:------------:	|:------------:	|
-|  Evaluated 	|      EB2     	|     Test     	|      EB1     	|     Test     	|
+|  Evaluated 	|      UB2     	|     Test     	|      UB1     	|     Test     	|
 | Base Model 	| 80.97(±0.79) 	| 86.67(±0.38) 	| 81.43(±0.11) 	| 85.94(±0.77) 	|
 | HEX        	| 80.69(±0.80) 	| 86.51(±0.56) 	| 81.01(±1.57) 	| 86.75(±1.57) 	|
 | Rebias     	| 82.02(±0.84) 	| 86.24(±0.31) 	| 82.02(±0.90) 	| 86.39(±0.51) 	|
