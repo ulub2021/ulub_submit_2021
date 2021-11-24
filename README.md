@@ -125,7 +125,7 @@ python main.py -e utkface_ubnet_gender_skintone_ub2_train --is_train --ubnet --c
 skintone prediction with gender bias
 
 | Trained    	| UB1          	| UB1          	| UB2          	| UB2          	|
-| Evaluated  	| UB2          	| Test         	| UB1          	| Test         	|
+| Evaluated  	| :UB2:          	| :Test:         	| :UB1:          	| :Test:         	|
 |------------	|--------------	|--------------	|--------------	|--------------	|
 | Base Model 	| 77.46(±0.55) 	| 82.97(±0.39) 	| 80.58(±0.37) 	| 85.44(±0.32) 	|
 | HEX        	| 79.35(±0.17) 	| 85.07(±0.46) 	| 80.82(±0.15) 	| 85.88(±0.27) 	|
