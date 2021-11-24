@@ -132,7 +132,7 @@ skintone prediction with gender bias
 | Rebias     	| 82.02(±0.84) 	| 86.24(±0.31) 	| 82.02(±0.90) 	| 86.39(±0.51) 	|
 | **UBNet**      	| **82.07(±1.55)** 	| **87.75(±0.58)** 	| **82.69(±0.80)** 	| **87.36(±0.46)** 	|
 
-Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1-UB2) 84.44%, ACC(UB1-Test) 87.91%, ACC(UB2-UB1) 88.66%, ACC(UB2-Test) 84.67%, where Acc([TRAIN_SET]-[VALIDATION_SET])
+Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1-UB2) 84.44%, ACC(UB1-Test) 87.91%, ACC(UB2-UB1) 88.66%, ACC(UB2-Test) 84.67%, where Acc([TRAIN_SET]-[VALIDATION_SET]).
 
 ```
 # trained on UB1
