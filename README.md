@@ -124,7 +124,7 @@ python main.py -e utkface_ubnet_gender_skintone_ub2_train --is_train --ubnet --c
 ### Evaluation
 skintone prediction with gender bias
 
-|   Trained  	|      EB1     	              	||      EB2     	||
+|   Trained  	|      EB1     	|      EB1     	|      EB2     	|      EB2     	|
 |:----------:	|:------------:	|:------------:	|:------------:	|:------------:	|
 |  Evaluated 	|      EB2     	|     Test     	|      EB1     	|     Test     	|
 | Base Model 	| 80.97(±0.79) 	| 86.67(±0.38) 	| 81.43(±0.11) 	| 85.94(±0.77) 	|
@@ -143,9 +143,9 @@ python main.py -e utkface_ubnet_skintone_gender_ub2_test --ubnet --cuda --use_pr
 ```
 gender prediction with skintone bias
 
-| Trained    	| EB1          	| EB1          	| EB2          	| EB2          	|
+|   Trained  	|      EB1     	|      EB1     	|      EB2     	|      EB2     	|
 |:----------:	|:------------:	|:------------:	|:------------:	|:------------:	|
-| Evaluated  	| EB2          	| Test         	| EB1          	| Test         	|
+|  Evaluated 	|      EB2     	|     Test     	|      EB1     	|     Test     	|
 | Base Model 	| 80.97(±0.79) 	| 86.67(±0.38) 	| 81.43(±0.11) 	| 85.94(±0.77) 	|
 | HEX        	| 80.69(±0.80) 	| 86.51(±0.56) 	| 81.01(±1.57) 	| 86.75(±1.57) 	|
 | Rebias     	| 82.02(±0.84) 	| 86.24(±0.31) 	| 82.02(±0.90) 	| 86.39(±0.51) 	|
