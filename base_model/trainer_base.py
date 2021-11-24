@@ -184,7 +184,7 @@ class Trainer(object):
 
         avg_loss = total_loss / total_num_test
         avg_acc = float(total_num_correct) / total_num_test
-        msg = f"[EVALUATION - {valid_type}] step {step}, LOSS {avg_loss}, ACCURACY : {avg_acc}"
+        msg = f"[EVALUATION({valid_type})] step {step}, LOSS {avg_loss}, ACCURACY : {avg_acc}"
         self.logger.info(msg)
 
         self.writer.add_scalars('Loss/epoch', {f'valid_{valid_type}': avg_loss}, step)
@@ -259,8 +259,7 @@ class Trainer(object):
 
     def _validate_imagenet(self, data_loader, step=0, valid_type='',
                         num_clusters=9,
-                        num_cluster_repeat=3,
-                        key=None):
+                        num_cluster_repeat=3):
         self._mode_setting(is_train=False)
 
         if not self.option.is_train:
@@ -284,15 +283,13 @@ class Trainer(object):
             for i, (images, labels, bias_labels) in enumerate(tqdm(data_loader, leave=False)):
                 images = self._get_variable(images)
                 labels = self._get_variable(labels)
-                # bias_labels = self._get_variable(bias_labels)
 
                 batch_size = labels.size(0)
                 total += batch_size
 
-                # self.optim.zero_grad()
                 pred = self.net(images)
 
-                if key == 'unbiased':
+                if valid_type == 'unbiased':
                     num_correct, num_instance = self.imagenet_unbiased_accuracy(pred.data, labels, bias_labels,
                                                                                 num_correct, num_instance,
                                                                                 num_cluster_repeat)
@@ -302,7 +299,7 @@ class Trainer(object):
                 loss = self.loss(pred, torch.squeeze(labels))
                 total_loss += loss.data * batch_size
 
-        if key == 'unbiased':
+        if valid_type == 'unbiased':
             for k in range(num_cluster_repeat):
                 x, y = [], []
                 _num_correct, _num_instance = num_correct[k].flatten(), num_instance[k].flatten()
@@ -319,8 +316,7 @@ class Trainer(object):
             avg_acc = f_correct / total
             print(f_correct, total)
         avg_loss = total_loss / total_num_test
-        # avg_acc = float(total_num_correct) / total_num_test
-        msg = f"[EVALUATION - {key}] step {step}, LOSS {avg_loss}, ACCURACY : {avg_acc}"
+        msg = f"[EVALUATION({valid_type})] step {step}, LOSS {avg_loss}, ACCURACY : {avg_acc}"
         self.logger.info(msg)
 
         self.writer.add_scalars('Loss/epoch', {f'valid_{valid_type}': avg_loss}, step)
@@ -373,7 +369,7 @@ class Trainer(object):
                 for val_type, val_loader in zip(val_types, val_loaders):
                     if self.option.data == 'imagenet':
                         print(val_type)
-                        self._validate_imagenet(val_loader, step, key=val_type)
+                        self._validate_imagenet(val_loader, step, valid_type=val_type)
                     else:
                         self._validate(val_loader, step, valid_type=val_type)
                 self._save_model(step)

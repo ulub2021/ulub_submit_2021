@@ -108,7 +108,7 @@ class UTKFaceDataset(Dataset):
             img = Image.fromarray(img)
         except:
             print(img_path)
-            input('enter')
+            input('Image does not exist.')
         if self.transforms:
             img = self.transforms(img)
         return img, label

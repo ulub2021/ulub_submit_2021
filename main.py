@@ -95,12 +95,15 @@ def main():
 
         print(f"train_dataset: {len(train_dataset)} | valid_test_dataset: {len(valid_test_dataset)}"
               f" | valid_bias_dataset: {len(valid_bias_dataset)}")
+
+        valid_types = [f'{train_bias.upper()}-Test', f'{train_bias.upper()}-{valid_bias.upper()}']
+        loaders = [valid_test_loader, valid_bias_loader]
+
         if option.is_train:
-            save_option(option)
-            trainer.train(train_loader, val_loader=valid_test_loader, val_loader_bias=valid_bias_loader)
+            trainer.train(train_loader, val_loaders=loaders, val_types=valid_types)
         else:
-            trainer._validate(valid_test_loader, step=0)
-            trainer._validate(valid_bias_loader, step=0, valid_type='bias')
+            for val_type, val_loader in zip(valid_types, loaders):
+                trainer._validate(val_loader, step=0, valid_type=val_type)
 
     elif option.data == 'imagenet':
         if option.is_train:
@@ -120,7 +123,7 @@ def main():
             trainer.train(train_loader, val_loaders=loaders, val_types=valid_types)
         else:
             for idx, (val_type, val_loader) in enumerate(zip(valid_types, loaders)):
-                trainer._validate_imagenet(val_loader, 0, key=val_type)
+                trainer._validate_imagenet(val_loader, 0, valid_type=val_type)
 
     elif option.data == 'CelebA-HQ':
         train_dataset = CelebA_HQ(root=os.path.join(option.data_dir, 'celebA'), txt_file='dataset/CelebA-HQ/train.txt')
@@ -143,13 +146,14 @@ def main():
             f"train_dataset: {len(train_dataset)} | eb1_valid_dataset: {len(ub1_valid_dataset)} | eb2_valid_dataset: {len(ub2_valid_dataset)}")
         print(
             f"train_loader: {len(train_loader)} | eb1_valid_loader: {len(ub1_valid_loader)} | eb2_valid_loader: {len(ub2_valid_loader)}")
+        valid_types = ['UB1', 'UB2']
+        loaders = [ub1_valid_loader, ub2_valid_loader]
 
         if option.is_train:
-            save_option(option)
-            trainer.train(train_loader=train_loader, val_loader=ub1_valid_loader, val_loader_bias=ub2_valid_loader)
+            trainer.train(train_loader, val_loaders=loaders, val_types=valid_types)
         else:
-            trainer._validate(ub1_valid_loader, step=0, valid_type='ub1')
-            trainer._validate(ub2_valid_loader, step=0, valid_type='ub2')
+            for val_type, val_loader in zip(valid_types, loaders):
+                trainer._validate(val_loader, step=0, valid_type=val_type)
 
 
 

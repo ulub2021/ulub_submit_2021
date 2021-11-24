@@ -193,7 +193,7 @@ class Trainer(object):
         loss_trans_sum = 0.
         total_num_correct = 0
         total_num_train = 0
-        t_bar = tqdm(data_loader)
+        t_bar = tqdm(data_loader, leave=False)
         for i, cur_data in enumerate(t_bar):
             if self.option.data == 'imagenet':
                 images, labels, bias_labels = cur_data
@@ -268,7 +268,7 @@ class Trainer(object):
         total_loss_conv = 0.
         total_loss_trans = 0.
 
-        for i, (images,labels) in enumerate(tqdm(data_loader)):
+        for i, (images,labels) in enumerate(tqdm(data_loader, leave=False)):
             
             images = self._get_variable(images)
             labels = self._get_variable(labels)
@@ -297,7 +297,7 @@ class Trainer(object):
         if self.option.ubnet:
             avg_loss_orth = total_loss_orth/total_num_test
             avg_acc_orth = total_num_correct_orth/total_num_test
-            msg = f"[EVALUATION-{valid_type}] (step {step}) LOSS : {np.round(avg_loss_orth.cpu().detach().numpy(),6)}, " \
+            msg = f"[EVALUATION({valid_type})] (step {step}) LOSS : {np.round(avg_loss_orth.cpu().detach().numpy(),6)}, " \
                   f"ACCURACY : {np.round(avg_acc_orth.cpu().detach().numpy(),6)} "
             self.writer.add_scalars('Loss/epoch', {f'valid_{valid_type}': avg_loss_orth}, step)
             self.writer.add_scalars('Accuracy/epoch', {f'valid_{valid_type}': avg_acc_orth}, step)
@@ -337,8 +337,7 @@ class Trainer(object):
 
     def _validate_imagenet(self, data_loader, step=0, valid_type='',
                         num_clusters=9,
-                        num_cluster_repeat=3,
-                        key=None):
+                        num_cluster_repeat=3):
         self._mode_setting(is_train=False)
 
         if not self.option.is_train:
@@ -375,7 +374,7 @@ class Trainer(object):
 
                 pred_label_orth, loss_conv, loss_trans = self.ubnet(out)
 
-                if key == 'unbiased':
+                if valid_type == 'unbiased':
                     num_correct, num_instance = self.imagenet_unbiased_accuracy(pred_label_orth.data, labels,
                                                                                 bias_labels,
                                                                                 num_correct, num_instance,
@@ -390,7 +389,7 @@ class Trainer(object):
                 total_loss_trans += loss_trans
 
         if self.option.ubnet:
-            if key == 'unbiased':
+            if valid_type == 'unbiased':
                 for k in range(num_cluster_repeat):
                     x, y = [], []
                     _num_correct, _num_instance = num_correct[k].flatten(), num_instance[k].flatten()
@@ -406,68 +405,11 @@ class Trainer(object):
                 avg_acc_orth = f_correct / total
 
             avg_loss_orth = total_loss_orth / total_num_test
-            msg = f"[EVALUATION] {key} step{step} LOSS : {avg_loss_orth}, ACCURACY : {avg_acc_orth}"
+            msg = f"[EVALUATION({valid_type})] step{step} LOSS : {avg_loss_orth}, ACCURACY : {avg_acc_orth}"
             self.writer.add_scalars('Loss/epoch', {f'valid_{valid_type}': avg_loss_orth}, step)
             self.writer.add_scalars('Accuracy/epoch', {f'valid_{valid_type}': avg_acc_orth}, step)
             self.cur_acc_orth = avg_acc_orth
         self.logger.info(msg)
-
-    def _validate_imagenet_all(self, data_loader, step=0, valid_type='',
-                        num_clusters=9,
-                        num_cluster_repeat=3,
-                        key=None):
-        self._mode_setting(is_train=False)
-
-        if not self.option.is_train:
-            print("not in training process")
-            self._initialization()
-            if self.option.checkpoint_orth is not None:
-                self._load_model()
-            else:
-                print("No trained model")
-                sys.exit()
-
-        total_num_correct_orth = 0.
-        total_num_test = 0.
-        total_loss_orth = 0.
-        total_loss_conv = 0.
-        total_loss_trans = 0.
-
-        total = 0
-        f_correct = 0
-
-        for i, (images, labels) in enumerate(tqdm(data_loader)):
-
-            images = self._get_variable(images)
-            labels = self._get_variable(labels)
-
-            batch_size = images.shape[0]
-            total_num_test += batch_size
-            total += batch_size
-            if self.option.ubnet:
-                self.optim_orth.zero_grad()
-                out = self.extract_features(images)
-
-                pred_label_orth, loss_conv, loss_trans = self.ubnet(out)
-
-                f_correct += self.n_correct(pred_label_orth, labels)
-
-                loss_orth = self.loss_ubnet(pred_label_orth, torch.squeeze(labels))
-                total_num_correct_orth += self._num_correct(pred_label_orth, labels, topk=1).data
-                total_loss_orth += loss_orth.data * batch_size
-                total_loss_conv += loss_conv
-                total_loss_trans += loss_trans
-
-        if self.option.ubnet:
-            avg_acc_orth = f_correct / total
-
-            avg_loss_orth = total_loss_orth / total_num_test
-            msg = f"[EVALUATION] {key} step{step} LOSS : {avg_loss_orth}, ACCURACY : {avg_acc_orth} "
-            self.writer.add_scalars('Loss/epoch', {f'valid_{valid_type}': avg_loss_orth}, step)
-            self.writer.add_scalars('Accuracy/epoch', {f'valid_{valid_type}': avg_acc_orth}, step)
-            self.cur_acc_orth = avg_acc_orth
-        self.logger.info(msg)
-
 
     def _num_correct(self,outputs,labels,topk=1):
         _, preds = outputs.topk(k=topk, dim=1)
@@ -544,24 +486,12 @@ class Trainer(object):
             self.scheduler.step()
 
             if step == 1 or step % self.option.save_step == 0 or step == (self.option.max_step-1):
-                if self.option.data == 'utkface':
-                    if val_loader is not None:
-                        self._validate(val_loader, step)
-                        self._validate(val_loader_bias, step, valid_type='bias')
-
-                if self.option.data == 'celebA':
-                    if val_loader is not None:
-                        self._validate(val_loader, step, valid_type='ub1')
-                        self._validate(val_loader_bias, step, valid_type='ub2')
-
-                elif self.option.data == 'imagenet':
-                    for val_type, val_loader in zip(val_types, val_loaders):
-                        if self.option.data == 'imagenet':
-                            print(val_type)
-                            self._validate_imagenet(val_loader, step, key=val_type)
-                        else:
-                            self._validate_imagenet_all(val_loader, step, valid_type=val_type)
-
+                for val_type, val_loader in zip(val_types, val_loaders):
+                    if self.option.data == 'imagenet':
+                        print(val_type)
+                        self._validate_imagenet(val_loader, step, valid_type=val_type)
+                    else:
+                        self._validate(val_loader, step, valid_type=val_type)
                 self._save_model(step)
                 
     def _get_variable(self, inputs):

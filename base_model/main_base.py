@@ -95,7 +95,7 @@ def main():
         print(f"train_dataset: {len(train_dataset)} | valid_test_dataset: {len(valid_test_dataset)}"
               f" | valid_bias_dataset: {len(valid_bias_dataset)}")
 
-        valid_types = [f'test {option.cls_type}', f'{valid_bias} {option.cls_type}']
+        valid_types = [f'{train_bias.upper()}-Test', f'{train_bias.upper()}-{valid_bias.upper()}']
         loaders = [valid_test_loader, valid_bias_loader]
 
         if option.is_train:
@@ -148,7 +148,7 @@ def main():
         print(
             f"train_loader: {len(train_loader)} | eb1_valid_loader: {len(ub1_valid_loader)} | eb2_valid_loader: {len(ub2_valid_loader)}")
 
-        valid_types = ['ub1', 'ub2']
+        valid_types = ['UB1', 'UB2']
         loaders = [ub1_valid_loader, ub2_valid_loader]
 
         if option.is_train:
