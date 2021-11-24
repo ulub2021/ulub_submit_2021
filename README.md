@@ -77,8 +77,8 @@ python main.py -e celebA_ubnet_train --is_train --ubnet --cuda --checkpoint exp/
 ### Evaluation
 | Method    	| Base Model   	| HEX          	| Rebias       	| **UBNet**       	|
 |-----------	|--------------	|--------------	|--------------	|--------------	|
-| ACC(EB1)  	| 99.38(±0.31) 	| 92.50(±0.67) 	| 99.05(±0.13) 	| **99.18(±0.18)** 	|
-| ACC(EB2)  	| 51.22(±1.73) 	| 50.85(±0.37) 	| 55.57(±1.43) 	| **58.22(±0.64)** 	|
+| ACC(UB1)  	| 99.38(±0.31) 	| 92.50(±0.67) 	| 99.05(±0.13) 	| **99.18(±0.18)** 	|
+| ACC(UB2)  	| 51.22(±1.73) 	| 50.85(±0.37) 	| 55.57(±1.43) 	| **58.22(±0.64)** 	|
 | ACC(test) 	| 75.30(±0.93) 	| 71.68(±0.50) 	| 77.31(±0.71) 	| **78.70(±0.24)** 	|
 
 Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(EB1) 99.29%, ACC(EB2) 58.74%, and hence ACC(Test) 79.02%. 
