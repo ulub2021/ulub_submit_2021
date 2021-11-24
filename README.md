@@ -151,7 +151,7 @@ gender prediction with skintone bias
 | Rebias     	| 82.02(±0.84) 	| 86.24(±0.31) 	| 82.02(±0.90) 	| 86.39(±0.51) 	|
 | **UBNet**      	| **82.07(±1.55)** 	| **87.75(±0.58)** 	| **82.69(±0.80)** 	| **87.36(±0.46)** 	|
 
-Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1-UB2) 83.84%, ACC(UB1-Test) 87.74%, ACC(UB2-UB1) 87.66%, ACC(UB2-Test) 83.60%
+Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1-UB2) 83.84%, ACC(UB1-Test) 87.74%, ACC(UB2-UB1) 87.66%, and ACC(UB2-Test) 83.60%
 ```
 # trained on UB1
 python main.py -e utkface_ubnet_gender_skintone_ub1_test --ubnet --cuda --use_pretrain True --checkpoint_orth weights/utkface_ubnet/utkface_gender_skintone_ub1_ubnet.pth --data utkface --data_dir dataset --save_dir exp --gpu=0 --batch_size=512 --data_var=0.2 --bias_type ub1 --cls_type gender_skintone --model resnet18
@@ -179,7 +179,7 @@ python main.py -e imagenet_ubnet_train --is_train --ubnet --cuda --checkpoint ex
 | Biased   	| 90.8       	| 88.4         	| 64.1          	| 90.5 	| 91.9   	| **91.9**	|
 | Unbiased 	| 88.8       	| 86.6         	| 62.7          	| 88.6 	| 90.5   	| **91.5**  	|
 
-Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; Biased ACC 92.19%, Unbiased ACC 91.60%.
+Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; Biased Accuracy 92.19%, Unbiased Accuracy 91.60%.
 ```
 python main.py -e imagenet_ubnet_test --imagenet_pretrain --ubnet --cuda --checkpoint_orth weights/imagenet_ubnet/imagenet_ubnet.pth --checkpoint weights/imagenet_baseline/imagenet_baseline.pth --data imagenet --data_dir dataset --save_dir exp --gpu=0 --batch_size=512 --model resnet18 --n_class=9
 ```
