@@ -174,12 +174,12 @@ python main.py -e imagenet_ubnet_train --is_train --ubnet --cuda --checkpoint ex
 
 ### Evaluation
 
-| Metric   	| Base 	      |       SI 	    |        LM	      | RUBi 	| Rebias 	| **UBNet**	|
+| Method   	| Base 	      |       SI 	    |        LM	      | RUBi 	| Rebias 	| **UBNet**	|
 |----------	|------------	|--------------	|---------------	|------	|--------	|-------	|
-| Biased   	| 90.8       	| 88.4         	| 64.1          	| 90.5 	| 91.9   	| **91.9**	|
-| Unbiased 	| 88.8       	| 86.6         	| 62.7          	| 88.6 	| 90.5   	| **91.5**  	|
+| ACC(Biased)   	| 90.8       	| 88.4         	| 64.1          	| 90.5 	| 91.9   	| **91.9**	|
+| ACC(Unbiased) 	| 88.8       	| 86.6         	| 62.7          	| 88.6 	| 90.5   	| **91.5**  	|
 
-Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; Biased Accuracy 92.19%, Unbiased Accuracy 91.60%.
+Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(Biased) 92.19%, ACC(Unbiased) 91.60%.
 ```
 python main.py -e imagenet_ubnet_test --imagenet_pretrain --ubnet --cuda --checkpoint_orth weights/imagenet_ubnet/imagenet_ubnet.pth --checkpoint weights/imagenet_baseline/imagenet_baseline.pth --data imagenet --data_dir dataset --save_dir exp --gpu=0 --batch_size=512 --model resnet18 --n_class=9
 ```
