@@ -143,7 +143,7 @@ python main.py -e utkface_ubnet_skintone_gender_ub2_test --ubnet --cuda --use_pr
 ```
 gender prediction with skintone bias
 
-|   Trained  	|      EB1     	|      EB1     	|      EB2     	|      EB2     	|
+|   Trained  	|      EB1     	     	|      EB2     	|      EB2     	|
 |:----------:	|:------------:	|:------------:	|:------------:	|:------------:	|
 |  Evaluated 	|      EB2     	|     Test     	|      EB1     	|     Test     	|
 | Base Model 	| 80.97(±0.79) 	| 86.67(±0.38) 	| 81.43(±0.11) 	| 85.94(±0.77) 	|
