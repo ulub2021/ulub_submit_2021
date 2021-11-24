@@ -1,9 +1,9 @@
-# Unbiased Learning on Unknown Bias (submitted as #9744 in CVPR2022)
+# Unbiased Learning on Unknown Bias (submitted as Paper ID 9744 in CVPR2022)
 
 Pytorch implementation of UBNet
 
 # Dependencies and Environment
-Dependencies can be installed via ANACONDA.
+Dependencies can be installed via anaconda.
 ```
 python>=3.7
 pytorch==1.9.0
@@ -77,11 +77,11 @@ python main.py -e celebA_ubnet_train --is_train --ubnet --cuda --checkpoint exp/
 ### Evaluation
 | Method    	| Base Model   	| HEX          	| Rebias       	| **UBNet**       	|
 |-----------	|--------------	|--------------	|--------------	|--------------	|
-| ACC(EB1)  	| 99.38(±0.31) 	| 92.50(±0.67) 	| 99.05(±0.13) 	| **99.18(±0.18)** 	|
-| ACC(EB2)  	| 51.22(±1.73) 	| 50.85(±0.37) 	| 55.57(±1.43) 	| **58.22(±0.64)** 	|
+| ACC(UB1)  	| 99.38(±0.31) 	| 92.50(±0.67) 	| 99.05(±0.13) 	| **99.18(±0.18)** 	|
+| ACC(UB2)  	| 51.22(±1.73) 	| 50.85(±0.37) 	| 55.57(±1.43) 	| **58.22(±0.64)** 	|
 | ACC(test) 	| 75.30(±0.93) 	| 71.68(±0.50) 	| 77.31(±0.71) 	| **78.70(±0.24)** 	|
 
-Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(EB1) 0.9929, ACC(EB2) 0.5874, and hence ACC(Test) 0.7902
+Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1) 99.29%, ACC(UB2) 58.74%, and hence ACC(Test) 79.02%
 
 ```
 python main.py -e celebA_ubnet_test --ubnet --cuda --checkpoint_orth weights/celebA_ubnet/celeba_ubnet.pth --checkpoint weights/celebA_baseline/celeba_base.pth --data CelebA-HQ --data_dir dataset --save_dir exp --gpu=0 --batch_size=32 --model vgg11
@@ -122,17 +122,37 @@ python main.py -e utkface_ubnet_gender_skintone_ub2_train --is_train --ubnet --c
 ```
 
 ### Evaluation
+skintone prediction with gender bias
+| Trained    	| UB1          	| UB1          	| UB2          	| UB2          	|
+| Evaluated  	| UB2          	| Test         	| UB1          	| Test         	|
+|------------	|--------------	|--------------	|--------------	|--------------	|
+| Base Model 	| 77.46(±0.55) 	| 82.97(±0.39) 	| 80.58(±0.37) 	| 85.44(±0.32) 	|
+| HEX        	| 79.35(±0.17) 	| 85.07(±0.46) 	| 80.82(±0.15) 	| 85.88(±0.27) 	|
+| Rebias     	| 78.70(±0.62) 	| 83.39(±1.22) 	| 80.06(±1.46) 	| 85.41(±1.23) 	|
+| **UBNet**    	| **83.67(±1.05) **	| **87.25(±0.82)** 	| **84.29(±1.24)** 	| **87.94(±0.80)** 	|
+Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1-UB2) 84.44%, ACC(UB1-Test) 87.91%, ACC(UB2-UB1) 88.66%, ACC(UB2-Test) 84.67%
+
 ```
-# skintone prediction with gender bias / trained on UB1
+# trained on UB1
 python main.py -e utkface_ubnet_skintone_gender_ub1_test --ubnet --cuda --use_pretrain True --checkpoint_orth weights/utkface_ubnet/utkface_skintone_gender_ub1_ubnet.pth --data utkface --data_dir dataset --save_dir exp --gpu=0 --batch_size=512 --data_var=0.2 --bias_type ub1 --cls_type skintone_gender --model resnet18
 
-# skintone prediction with gender bias / trained on UB2
+# trained on UB2
 python main.py -e utkface_ubnet_skintone_gender_ub2_test --ubnet --cuda --use_pretrain True --checkpoint_orth weights/utkface_ubnet/utkface_skintone_gender_ub2_ubnet.pth --data utkface --data_dir dataset --save_dir exp --gpu=0 --batch_size=512 --data_var=0.2 --bias_type ub2 --cls_type skintone_gender --model resnet18
-
-# gender prediction with skintone bias / trained on UB1
+```
+gender prediction with skintone bias
+| Trained    	| EB1          	| EB1          	| EB2          	| EB2          	|
+|------------	|--------------	|--------------	|--------------	|--------------	|
+| Evaluated  	| EB2          	| Test         	| EB1          	| Test         	|
+| Base Model 	| 80.97(±0.79) 	| 86.67(±0.38) 	| 81.43(±0.11) 	| 85.94(±0.77) 	|
+| HEX        	| 80.69(±0.80) 	| 86.51(±0.56) 	| 81.01(±1.57) 	| 86.75(±1.57) 	|
+| Rebias     	| 82.02(±0.84) 	| 86.24(±0.31) 	| 82.02(±0.90) 	| 86.39(±0.51) 	|
+| **UBNet**      	| **82.07(±1.55)** 	| **87.75(±0.58)** 	| **82.69(±0.80)** 	| **87.36(±0.46)** 	|
+Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; ACC(UB1-UB2) 83.84%, ACC(UB1-Test) 87.74%, ACC(UB2-UB1) 87.66%, ACC(UB2-Test) 83.60%
+```
+# trained on UB1
 python main.py -e utkface_ubnet_gender_skintone_ub1_test --ubnet --cuda --use_pretrain True --checkpoint_orth weights/utkface_ubnet/utkface_gender_skintone_ub1_ubnet.pth --data utkface --data_dir dataset --save_dir exp --gpu=0 --batch_size=512 --data_var=0.2 --bias_type ub1 --cls_type gender_skintone --model resnet18
 
-# gender prediction with skintone bias / trained on UB2
+# trained on UB2
 python main.py -e utkface_ubnet_gender_skintone_ub2_test --ubnet --cuda --use_pretrain True --checkpoint_orth weights/utkface_ubnet/utkface_gender_skintone_ub2_ubnet.pth --data utkface --data_dir dataset --save_dir exp --gpu=0 --batch_size=512 --data_var=0.2 --bias_type ub2 --cls_type gender_skintone --model resnet18
 ```
 
@@ -149,6 +169,11 @@ python main.py -e imagenet_ubnet_train --is_train --ubnet --cuda --checkpoint ex
 ```
 
 ### Evaluation
+| Metric   	| Base Model 	| Styleised IN 	| Learned Mixin 	| RUBi 	| Rebias 	| **UBNet**	|
+|----------	|------------	|--------------	|---------------	|------	|--------	|-------	|
+| Biased   	| 90.8       	| 88.4         	| 64.1          	| 90.5 	| 91.9   	| **91.9**	|
+| Unbiased 	| 88.8       	| 86.6         	| 62.7          	| 88.6 	| 90.5   	| **91.5**  	|
+Note that we have reported the average of 3 results in the paper. The uploaded weight is from one of the 3 experiments; Biased ACC 92.19%, Unbiased ACC 91.60%.
 ```
 python main.py -e imagenet_ubnet_test --imagenet_pretrain --ubnet --cuda --checkpoint_orth weights/imagenet_ubnet/imagenet_ubnet.pth --checkpoint weights/imagenet_baseline/imagenet_baseline.pth --data imagenet --data_dir dataset --save_dir exp --gpu=0 --batch_size=512 --model resnet18 --n_class=9
 ```
